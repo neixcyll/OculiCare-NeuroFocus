@@ -767,7 +767,7 @@ export default function ScreeningPage() {
   const currentAsrsQuestion = ASRS_QUESTIONS[asrsStep] ?? ASRS_QUESTIONS[0];
   const currentAsrsAnswered = asrsAnswers[currentAsrsQuestion.id] !== undefined;
   return (
-    <main className={`site-shell screening-shell ${phase === "ready" || phase === "running" ? "exam-mode-hide-nav" : ""}`}>
+    <main className={`site-shell screening-shell ${(phase === "ready" && practiceState !== "running") || phase === "running" ? "exam-mode-hide-nav" : ""}`}>
       {(phase !== "ready" && phase !== "running") && (
       <nav className="nav-wrap">
         <Link className="brand" href="/">
@@ -862,7 +862,7 @@ export default function ScreeningPage() {
       )}
 
       {/* STEP 1 (PERSIAPAN): Minimal — kamera saja, tidak bisa diselesaikan */}
-      {phase === "ready" && (
+      {phase === "ready" && practiceState !== "running" && (
         <section className="lab-viewport">
           <div className="lab-frame" style={{ textAlign: "center", padding: "48px 24px" }}>
             <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", margin: "0 0 20px", lineHeight: 1.6 }}>
@@ -949,11 +949,6 @@ export default function ScreeningPage() {
                     Mulai Latihan
                   </button>
                 </div>
-              )}
-              {practiceState === "running" && (
-                <p style={{ fontSize: "0.82rem", color: "var(--accent)", margin: 0 }}>
-                  ◉ Latihan berjalan — lihat layar penuh di atas
-                </p>
               )}
               {practiceState === "passed" && (
                 <div>
